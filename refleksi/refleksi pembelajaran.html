@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refleksi Pembelajaran: Translasi & Etnomatematika Batik Jember</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #2E5A44; /* Hijau daun tembakau segar */
+            --primary-light-green: #E8F0EC;
+            --accent-brown: #8B5A2B; /* Cokelat batik hangat */
+            --accent-light-brown: #F5EFEB;
+            --text-dark: #2D312E;
+            --text-muted: #626B65;
+            --bg-clean: #FAFAF9; /* Putih bersih */
+            --white: #FFFFFF;
+            --error-red: #E11D48;
+            --success-green: #16A34A;
+            --shadow-smooth: 0 10px 30px -5px rgba(46, 90, 68, 0.08), 0 4px 12px -3px rgba(0, 0, 0, 0.03);
+            --transition-fast: 0.25s ease;
+            --transition-bounce: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-clean);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Container Utama */
+        .wrapper {
+            width: 100%;
+            max-width: 640px;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-smooth);
+            border: 1px solid rgba(46, 90, 68, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: var(--primary-light-green);
+            border-radius: 10px;
+            margin-bottom: 35px;
+            display: none; /* Sembunyikan di halaman utama */
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-green), var(--accent-brown));
+            border-radius: 10px;
+            transition: width var(--transition-fast);
+        }
+
+        /* Step/Bagian Form */
+        .form-step {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tipografi */
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            line-height: 1.3;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--accent-brown);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .step-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .question-label {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        /* Form Controls */
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background-color: var(--white);
+            transition: all var(--transition-fast);
+        }
+
+        input[type="text"]:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 4px var(--primary-light-green);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Emoji Grid */
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .emoji-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .emoji-item {
+            border: 1.5px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-bounce);
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .emoji-item .icon {
+            font-size: 1.8rem;
+        }
+
+        .emoji-item .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .emoji-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-brown);
+            background-color: var(--accent-light-brown);
+        }
+
+        .emoji-item.selected {
+            border-color: var(--primary-green);
+            background-color: var(--primary-light-green);
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(46, 90, 68, 0.1);
+        }
+
+        .emoji-item.selected .label {
+            color: var(--primary-green);
+        }
+
+        /* Slider */
+        .slider-container {
+            background: var(--bg-clean);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 28px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .slider-val-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .slider-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-green);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #E2E8F0;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            cursor: pointer;
+            transition: transform var(--transition-fast);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Checklist */
+        .checklist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background-color: var(--white);
+            border: 1.5px solid #E2E8F0;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .checklist-item:hover {
+            background-color: var(--bg-clean);
+            border-color: var(--text-muted);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-green);
+            cursor: pointer;
+        }
+
+        .checklist-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Quiz Box */
+        .quiz-card {
+            background: var(--white);
+            border: 1.5px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .quiz-question {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: var(--text-dark);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .option-label:hover {
+            background-color: var(--accent-light-brown);
+        }
+
+        .option-label input[type="radio"] {
+            accent-color: var(--primary-green);
+        }
+
+        .btn-check {
+            background-color: var(--accent-light-brown);
+            color: var(--accent-brown);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-check:hover {
+            background-color: var(--accent-brown);
+            color: var(--white);
+        }
+
+        .quiz-feedback {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            display: block;
+            background-color: #DCFCE7;
+            color: var(--success-green);
+        }
+
+        .quiz-feedback.wrong {
+            display: block;
+            background-color: #FFE4E6;
+            color: var(--error-red);
+        }
+
+        /* Navigasi Button */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(46, 90, 68, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #214231;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #E2E8F0;
+            color: var(--text-dark);
+            flex: 0.4;
+        }
+
+        .btn-secondary:hover {
+            background-color: #CBD5E1;
+        }
+
+        /* Success Page */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: scaleUp 0.5s var(--transition-bounce);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <form id="reflectionForm" onsubmit="event.preventDefault();">
+
+        <div class="form-step active" id="step-0">
+            <h1>Refleksi Pembelajaran:<br>Translasi & Etnomatematika Batik Jember</h1>
+            <p class="subtitle">Fase F - Kelas XI | S1 Pendidikan Matematika</p>
+
+            <div class="input-group">
+                <label for="nama_lengkap">Nama Lengkap</label>
+                <input type="text" id="nama_lengkap" placeholder="Masukkan nama lengkapmu..." required>
+            </div>
+
+            <div class="input-group">
+                <label for="kelas">Kelas</label>
+                <select id="kelas" required>
+                    <option value="" disabled selected>Pilih kelas...</option>
+                    <option value="XI-A">XI - A</option>
+                    <option value="XI-B">XI - B</option>
+                    <option value="XI-C">XI - C</option>
+                    <option value="XI-D">XI - D</option>
+                    <option value="XI-E">XI - E</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="nextStep(1)">Mulai Refleksi</button>
+        </div>
+
+        <div class="form-step" id="step-1">
+            <h2>Bagaimana perasaanmu?</h2>
+            <p class="step-description">Mindful & Joyful Learning</p>
+
+            <label class="question-label">Bagaimana perasaanmu setelah belajar materi Translasi hari ini?</label>
+            <div class="emoji-grid">
+                <div class="emoji-item" onclick="selectEmoji('Senang Sekali', this)">
+                    <span class="icon">🥰</span>
+                    <span class="label">Senang Sekali</span>
+                </div>
+                <div class="emoji-item" onclick="selectEmoji('Senang', this)">
+                    <span class="icon">🙂</span>
+                    <span class="label">Senang</span>
+                </div>
+                <div class="emoji-item" onclick="selectEmoji('Tertarik', this)">
+                    <span class="icon">🤩</span>
+                    <span class="label">Tertarik</span>
+                </div>
+                <div class="emoji-item" onclick="selectEmoji('Biasa Saja', this)">
+                    <span class="icon">😐</span>
+                    <span class="label">Biasa Saja</span>
+                </div>
+                <div class="emoji-item" onclick="selectEmoji('Bingung', this)">
+                    <span class="icon">🤨</span>
+                    <span class="label">Bingung</span>
+                </div>
+                <div class="emoji-item" onclick="selectEmoji('Kesulitan', this)">
+                    <span class="icon">😥</span>
+                    <span class="label">Kesulitan</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="alasan_perasaan" class="question-label">Mengapa kamu merasa seperti itu?</label>
+                <textarea id="alasan_perasaan" placeholder="Ceritakan sedikit alasanmu di sini..."></textarea>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" onclick="nextStep(2)">Lanjut ke Pemahaman</button>
+            </div>
+        </div>
+
+        <div class="form-step" id="step-2">
+            <h2>Pemahaman Materi</h2>
+            <p class="step-description">Meaningful Learning</p>
+
+            <div class="input-group">
+                <label class="question-label">Seberapa paham kamu tentang materi Translasi?</label>
+                <div class="slider-container">
+                    <div class="slider-val-box">
+                        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight:600;">Skala Pemahaman</span>
+                        <span class="slider-value" id="sliderValDisplay">50%</span>
+                    </div>
+                    <input type="range" id="skala_paham" min="0" max="100" value="50" oninput="updateSliderDisplay(this.value)">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="question-label">Apa saja yang sudah kamu pahami? (Ceklis semua yang sesuai)</label>
+                <div class="checklist-container">
+                    <label class="checklist-item">
+                        <input type="checkbox" name="checklist_pemahaman" value="Memahami konsep dasar translasi">
+                        <span class="checklist-text">Memahami konsep dasar translasi sebagai pergeseran objek tanpa mengubah bentuk dan ukuran.</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" name="checklist_pemahaman" value="Mengidentifikasi unsur pergeseran pada Batik Jember">
+                        <span class="checklist-text">Mengidentifikasi unsur pergeseran (translasi) pada pola berulang motif daun tembakau di Batik Jember.</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" name="checklist_pemahaman" value="Menggunakan aplikasi GeoGebra">
+                        <span class="checklist-text">Menggunakan aplikasi GeoGebra untuk mengeksplorasi perpindahan titik secara visual.</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" name="checklist_pemahaman" value="Menentukan koordinat bayangan hasil translasi">
+                        <span class="checklist-text">Menentukan koordinat bayangan hasil translasi titik pada bidang koordinat Kartesius.</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" name="checklist_pemahaman" value="Menyatakan translasi ke bentuk matriks">
+                        <span class="checklist-text">Menyatakan konsep translasi ke dalam bentuk operasi penjumlahan matriks.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="hal_lain_dipelajari" class="question-label">Hal lain apa yang kamu pelajari hari ini?</label>
+                <textarea id="hal_lain_dipelajari" placeholder="Misal: pengalaman menggunakan GeoGebra atau nilai budaya lokal..."></textarea>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Kembali</button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(3)">Lanjut ke Aktivitas</button>
+            </div>
+        </div>
+
+        <div class="form-step" id="step-3">
+            <h2>Uji Pemahaman Kilat</h2>
+            <p class="step-description">Mari uji pemahamanmu dari aktivitas eksplorasi LKPD tadi!</p>
+
+            <div class="quiz-card">
+                <p class="quiz-question">1. Sebuah titik koordinat pada motif utama Batik Jember berada di A(2, 3).
+                Jika motif tersebut ditranslasikan (digeser) 2 satuan ke kanan dan 1 satuan ke atas menjadi motif baru, di manakah koordinat bayangan A'?</p>
+                <div class="quiz-options">
+                    <label class="option-label"><input type="radio" name="q1" value="A"> A) (4, 3)</label>
+                    <label class="option-label"><input type="radio" name="q1" value="B"> B) (3, 4)</label>
+                    <label class="option-label"><input type="radio" name="q1" value="C"> C) (4, 4)</label>
+                    <label class="option-label"><input type="radio" name="q1" value="D"> D) (2, 4)</label>
+                </div>
+                <button type="button" class="btn-check" onclick="checkAnswer(1, 'C')">Periksa Jawaban</button>
+                <div class="quiz-feedback" id="feedback-1"></div>
+            </div>
+
+            <div class="quiz-card">
+                <p class="quiz-question">2. Perhatikan translasi pada pola kain batik: (x, y) → (x + 3, y - 2).
+                Berdasarkan operasi matriks tersebut, artinya motif daun tembakau mengalami perpindahan...</p>
+                <div class="quiz-options">
+                    <label class="option-label"><input type="radio" name="q2" value="A"> A) 3 satuan ke kiri dan 2 satuan ke atas</label>
+                    <label class="option-label"><input type="radio" name="q2" value="B"> B) 3 satuan ke kanan dan 2 satuan ke bawah</label>
+                    <label class="option-label"><input type="radio" name="q2" value="C"> C) 3 satuan ke kanan dan 2 satuan ke atas</label>
+                    <label class="option-label"><input type="radio" name="q2" value="D"> D) 3 satuan ke kiri dan 2 satuan ke bawah</label>
+                </div>
+                <button type="button" class="btn-check" onclick="checkAnswer(2, 'B')">Periksa Jawaban</button>
+                <div class="quiz-feedback" id="feedback-2"></div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Kembali</button>
+                <button type="button" class="btn btn-primary" onclick="nextStep(4)">Lanjut ke Pesan</button>
+            </div>
+        </div>
+
+        <div class="form-step" id="step-4">
+            <h2>Pesan untuk Guru</h2>
+            <p class="step-description">Sampaikan pendapat akhirmu untuk membantu peningkatan kualitas pembelajaran.</p>
+
+            <div class="input-group">
+                <label for="pesan_guru" class="question-label">Tuliskan pesan, kesan, atau pertanyaan yang ingin kamu sampaikan kepada Guru mengenai materi hari ini:</label>
+                <textarea id="pesan_guru" placeholder="Ketik pesan atau kendalamu di sini..."></textarea>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Kembali</button>
+                <button type="button" class="btn btn-primary" style="background-color: var(--accent-brown);" onclick="submitRefleksi()">Kirim Refleksi</button>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="success-screen" id="successScreen">
+        <span class="success-icon">✨</span>
+        <h2>Terima kasih!</h2>
+        <p style="color: var(--text-muted); margin-top: 10px;">Refleksimu telah berhasil dikirim ke Guru.</p>
+    </div>
+</div>
+
+<script>
+    let currentStep = 0;
+    const totalSteps = 4; 
+    let dataRefleksi = {
+        nama: "",
+        kelas: "",
+        perasaan: "",
+        alasan_perasaan: "",
+        skala_pemahaman: "50%",
+        checklist_dipahami: [],
+        jawaban_soal_1: "",
+        jawaban_soal_2: "",
+        pesan_guru: ""
+    };
+
+    // Fungsi Navigasi Halaman
+    function showStep(stepIndex) {
+        document.querySelectorAll('.form-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        document.getElementById(`step-${stepIndex}`).classList.add('active');
+
+        const progressContainer = document.getElementById('progressContainer');
+        if (stepIndex === 0) {
+            progressContainer.style.display = 'none';
+        } else {
+            progressContainer.style.display = 'block';
+            const progressPercentage = ((stepIndex) / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+        }
+        currentStep = stepIndex;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextStep(stepIndex) {
+        if (currentStep === 0) {
+            const nama = document.getElementById('nama_lengkap').value.trim();
+            const kelas = document.getElementById('kelas').value;
+            if (!nama || !kelas) {
+                alert('Harap isi Nama Lengkap dan pilih Kelas terlebih dahulu!');
+                return;
+            }
+            dataRefleksi.nama = nama;
+            dataRefleksi.kelas = kelas;
+        }
+        showStep(stepIndex);
+    }
+
+    function prevStep(stepIndex) {
+        showStep(stepIndex);
+    }
+
+    // Pilihan Emoji
+    function selectEmoji(emojiValue, element) {
+        document.querySelectorAll('.emoji-item').forEach(item => {
+            item.classList.remove('selected');
+        });
+        element.classList.add('selected');
+        dataRefleksi.perasaan = emojiValue;
+    }
+
+    // Update Nilai Slider
+    function updateSliderDisplay(value) {
+        document.getElementById('sliderValDisplay').innerText = value + '%';
+        dataRefleksi.skala_pemahaman = value + '%';
+    }
+
+    // Memeriksa Jawaban Kuis
+    function checkAnswer(questionNum, correctAnswer) {
+        const selectedOption = document.querySelector(`input[name="q${questionNum}"]:checked`);
+        const feedbackElement = document.getElementById(`feedback-${questionNum}`);
+
+        if (!selectedOption) {
+            feedbackElement.innerText = "⚠️ Pilih salah satu jawaban terlebih dahulu!";
+            feedbackElement.className = "quiz-feedback wrong";
+            return;
+        }
+
+        if (selectedOption.value === correctAnswer) {
+            feedbackElement.innerText = "Benar ✨";
+            feedbackElement.className = "quiz-feedback correct";
+        } else {
+            feedbackElement.innerText = "Salah, coba cek lagi ❌";
+            feedbackElement.className = "quiz-feedback wrong";
+        }
+
+        if(questionNum === 1) dataRefleksi.jawaban_soal_1 = selectedOption.value;
+        if(questionNum === 2) dataRefleksi.jawaban_soal_2 = selectedOption.value;
+    }
+
+    // Pengumpulan Data & Trigger Pengiriman
+    function submitRefleksi() {
+        dataRefleksi.alasan_perasaan = document.getElementById('alasan_perasaan').value;
+
+        let checkedItems = [];
+        document.querySelectorAll('input[name="checklist_pemahaman"]:checked').forEach(cb => {
+            checkedItems.push(cb.value);
+        });
+        dataRefleksi.checklist_dipahami = checkedItems;
+        dataRefleksi.hal_lain_dipelajari = document.getElementById('hal_lain_dipelajari').value;
+
+        const q1Checked = document.querySelector('input[name="q1"]:checked');
+        const q2Checked = document.querySelector('input[name="q2"]:checked');
+        dataRefleksi.jawaban_soal_1 = q1Checked ? q1Checked.value : "Tidak dijawab";
+        dataRefleksi.jawaban_soal_2 = q2Checked ? q2Checked.value : "Tidak dijawab";
+
+        dataRefleksi.pesan_guru = document.getElementById('pesan_guru').value;
+
+        console.log("Menyiapkan Pengiriman Data:", dataRefleksi);
+        sendToGoogleSheets(dataRefleksi);
+    }
+
+    // ================= INTEGRASI GOOGLE APPS SCRIPT =================
+    function sendToGoogleSheets(jsonData) {
+        // Tempelkan URL Web App hasil Deployment Google Apps Script Anda di bawah ini!
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR2XBIz1lO_49l6CURHNOZUhCzo8clLHm_bddKXb3LyEtOqUxvRHnfvvcoUBPqudKL/exec";
+
+        const dataToSend = {
+            ...jsonData,
+            checklist_dipahami: jsonData.checklist_dipahami.join(", ")
+        };
+
+        const formBody = new URLSearchParams();
+        for (const key in dataToSend) {
+            formBody.append(key, dataToSend[key]);
+        }
+
+        fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formBody.toString()
+        })
+        .then(res => {
+            tampilkanHalamanSukses();
+        })
+        .catch(err => {
+            console.error("Gagal mengirim:", err);
+            alert("Koneksi internet bermasalah. Data gagal dikirim.");
+        });
+    }
+
+    function tampilkanHalamanSukses() {
+        document.getElementById('reflectionForm').style.display = 'none';
+        document.getElementById('progressContainer').style.display = 'none';
+        document.getElementById('successScreen').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
